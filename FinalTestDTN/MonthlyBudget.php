@@ -35,9 +35,20 @@
                         </p>
                         <p>
                             &#160
+                            <?php
+                            require_once 'ConnectDatabase.php';
+                            $con = new Connection();
+                            $conn = $con->connect();
+                            $query = "SELECT * FROM tblbillcategories";
+                            $result = $conn->query($query);
+                            ?>
                             <select name="bill_on" id="category" style="width: 30%">
                                 <option value="">-- Select a category --</option>
-
+                                <?php
+                                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)):
+                                    echo "<option>" . $row['cat_name'] . " </option>";
+                                endwhile;
+                                ?>
                             </select>
                         </p>
                         <p>

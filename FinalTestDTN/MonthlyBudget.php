@@ -57,7 +57,10 @@
                         </p>
                         <p>
                             <button id="add" value="" onclick="validateForm()">Add New Bill</button>
-                            <button id="add" value="" onclick="reset()">Reset</button>
+                            <script lang="javascript">
+                                
+                            </script>
+                            <button id="reset" value="" onclick="reset()">Reset</button>
                         </p>
                     </form>
                 </div>
@@ -75,6 +78,41 @@
                             <th>Category</th>
                             <th>Complete</th>
                         </tr>
+                        <?php
+                        require_once 'ConnectDatabase.php';
+                        $con = new Connection();
+                        $conn = $con->connect();
+                        $query_data = "SELECT * FROM `tblbills`";
+                        $list_data = $conn->query($query_data);
+                        if ($list_data->num_rows > 0) {
+                            while ($row = mysqli_fetch_assoc($list_data)) {
+                                $complete = $row['is_paid'];
+                                $category = $row['cat_id'];
+                                switch ($category) {
+                                    case 1:
+                                        $category = "Personal";
+                                        break;
+                                    case 2:
+                                        $category = "Family";
+                                        break;
+                                    case 3:
+                                        $category = "Important";
+                                        break;
+                                }
+                                echo '<tr>';
+                                echo "<td>" . $row['id'] . "</td>";
+                                echo "<td>" . $row['name'] . "</td>";
+                                echo "<td>" . $row['amount'] . "</td>";
+                                echo "<td>" . $category . "</td>";
+                                if ($complete == 0) {
+                                    echo "<td><input type='checkbox'></td>";
+                                } else {
+                                    echo "<td><input type='checkbox' checked></td>";
+                                }
+                                echo '</tr>';
+                            }
+                        }
+                        ?>
                     </table>
                     <p>
                         &#160 <button id="update">Update</button>
@@ -82,6 +120,6 @@
                 </form>
             </div>
         </div>
-        <script src="1.js" type="text/javascript" charset="utf-8"></script>
+        <script src="1.js" src="jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
     </body>
 </html>

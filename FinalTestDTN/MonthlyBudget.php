@@ -1,4 +1,14 @@
-<?php ?>
+<?php
+$server = "localhost";
+$username = "root";
+$password = "";
+$dbname = "budgetdb";
+$conn = new mysqli($server, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+echo "Connected successfully";
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,6 +48,7 @@
                             &#160
                             <select name="bill_on" id="category" style="width: 30%">
                                 <option value="">-- Select a category --</option>
+                                
                             </select>
                         </p>
                         <p>

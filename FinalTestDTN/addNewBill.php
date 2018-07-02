@@ -2,18 +2,16 @@
 
 header('Content-Type: text/html; charset=utf-8');
 $billId = isset($_POST['billId']) ? $_POST['billId'] : FALSE;
-echo $billId;
-die;
-require_once 'ConnectDatabase.php';
-$con = new Connection();
-$conn = $con->connect();
+
+
+
 
 // Kiểm tra xem đã tồn tại Bill ID trong cơ sở dữ liệu hay chưa ?
-$search_query = "SELECT * FROM tblbills WHERE id = " . $id;
+$search_query = "SELECT * FROM tblbills WHERE id = " . $billId;
 $kq = $conn->query($search_query);
 if ($kq->num_rows > 0) {
-//    echo '<script type="text/javascript"> alert("Đã tồn tại Bill ID")</script>';
-//    echo "Da ton tai Bill ID";
+    echo '<script type="text/javascript"> alert("Đã tồn tại Bill ID")</script>';
+    echo "Da ton tai Bill ID";
 } else {
 // Ngược lại thì thêm bản ghi mới vào cơ sở dữ liệu
 

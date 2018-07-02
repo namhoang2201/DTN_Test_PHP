@@ -1,20 +1,22 @@
 <?php
 
 header('Content-Type: text/html; charset=utf-8');
+// Lấy BIll ID từ form người dùng nhập vào
 $billId = isset($_POST['billId']) ? $_POST['billId'] : FALSE;
 
-
-
-
-// Kiểm tra xem đã tồn tại Bill ID trong cơ sở dữ liệu hay chưa ?
-$search_query = "SELECT * FROM tblbills WHERE id = " . $billId;
-$kq = $conn->query($search_query);
-if ($kq->num_rows > 0) {
-    echo '<script type="text/javascript"> alert("Đã tồn tại Bill ID")</script>';
-    echo "Da ton tai Bill ID";
-} else {
-// Ngược lại thì thêm bản ghi mới vào cơ sở dữ liệu
-
-    $insert_query = "INSERT INTO tblbills VALUES ()";
+if ($billId != FALSE) {
+    // Kết nối tới cơ sở dữ liệu
+    $con = new mysqli("localhost", "root", "", "budgetdb");
+    if (mysqli_connect_errno()) {
+        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    } else {
+        $search = mysqli_query($con, "select * from tblbills where id = '" . $billId . "'");
+        if (!$search || mysqli_num_rows($search) == 0) {
+            //Nếu không tồn tại Bill ID, ta có thể thêm mới bình thường
+        } else {
+            // Nếu đã tồi tại Bill ID, ta thông báo cho người dùng
+            echo "<script language='javascript'> alert('Note: Bill ID has already existed !!!');</script>";
+        }
+    }
 }
 ?>

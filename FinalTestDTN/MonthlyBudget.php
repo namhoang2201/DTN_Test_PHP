@@ -84,16 +84,13 @@
                         <p>
                             &#160
                             <?php
-                            require_once 'ConnectDatabase.php';
-                            $con = new Connection();
-                            $conn = $con->connect();
-                            $query = "SELECT * FROM tblbillcategories";
-                            $result = $conn->query($query);
+                            $conn = mysqli_connect('localhost', 'root', '', 'budgetdb') or die('Can not connect to mysql');
+                            $query = mysqli_query($conn, "SELECT * FROM tblbillcategories");
                             ?>
                             <select name="bill_on" id="category" style="width: 30%">
                                 <option value="">-- Select a category --</option>
                                 <?php
-                                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)):
+                                while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)):
                                     echo "<option>" . $row['cat_name'] . " </option>";
                                 endwhile;
                                 ?>
@@ -125,13 +122,10 @@
                             <th>Complete</th>
                         </tr>
                         <?php
-                        require_once 'ConnectDatabase.php';
-                        $con = new Connection();
-                        $conn = $con->connect();
-                        $query_data = "SELECT * FROM `tblbills`";
-                        $list_data = $conn->query($query_data);
-                        if ($list_data->num_rows > 0) {
-                            while ($row = mysqli_fetch_assoc($list_data)) {
+                        $conn = mysqli_connect('localhost', 'root', '', 'budgetdb') or die('Can not connect to mysql');
+                        $query = mysqli_query($conn, "SELECT * FROM tblbills");
+                        if (mysqli_num_rows($query) > 0) {
+                            while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
                                 $complete = $row['is_paid'];
                                 $category = $row['cat_id'];
                                 switch ($category) {

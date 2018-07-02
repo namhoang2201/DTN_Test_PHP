@@ -4,12 +4,60 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Monthly Budget</title>
+        <script language="javascript" src="jquery-3.2.1.js"></script>
+        <script language="javascript">
+
+            function validateForm() {
+                var ho = $('#bill_id').val();
+                if (ho == "") {
+                    alert("Bill ID must not empty !");
+                    return false;
+                }
+
+                var name = $('#bill_name').val();
+                if (name == "") {
+                    alert("Bill Name must not empty !");
+                    return false;
+                }
+
+                var amount = $('#amount').val();
+                if (amount == "") {
+                    alert("Amount must not empty !");
+                    return false;
+                }
+
+                var category = $('#category').val();
+                if (category == "") {
+                    alert("Please select a category !");
+                    return false;
+                }
+
+                $.ajax({
+                    url: "addNewBill.php",
+                    type: "post",
+                    dataType: "text",
+                    data: {
+                        billId: $('#bill_id').val()
+                    },
+                    success: function (result) {
+                        $('#result').html(result);
+                    }
+                });
+
+                return true;
+            }
+
+            function reset() {
+                document.getElementById("form1").reset();
+            }
+        </script>
+
         <link rel="stylesheet" type="text/css" href="1.css">
     </head>
     <body>
         <div id="father">
             <div id="one">
-                &#160 Add New Bill
+                &#160; Add New Bill
             </div>
             <div id="two">
                 <div id="two1"> <br>
@@ -22,16 +70,16 @@
                 <div id="two2">
                     <form action="#" method="post" name="form1" id="form1">
                         <p>
-                            &#160 <input type="text" name="account" value="132000" style="width: 30%" readonly> $
+                            &#160 <input type="text" id="account" value="132000" style="width: 30%" readonly /> $
                         </p>
                         <p>
-                            &#160 <input type="text" name="bill_id" value="" style="width: 15%">
+                            &#160 <input type="text" id="bill_id" value="" style="width: 15%" />
                         </p>
                         <p>
-                            &#160 <input type="text" name="bill_name" value="" style="width: 50%">
+                            &#160 <input type="text" id="bill_name" value="" style="width: 50%" />
                         </p>
                         <p>
-                            &#160 <input type="text" name="amount" value="" style="width: 50%"> $
+                            &#160 <input type="number" id="amount" value="" style="width: 50%"  onkeyup="value = isNaN(parseFloat(value)) ? '' : value" /> $
                         </p>
                         <p>
                             &#160
@@ -52,14 +100,12 @@
                             </select>
                         </p>
                         <p>
-                            &#160 <input type="checkbox" id="is_paid" >
+                            &#160 <input type="checkbox" id="is_paid" />
                             Is Paid ?
                         </p>
                         <p>
-                            <button id="add" value="" onclick="validateForm()">Add New Bill</button>
-                            <script lang="javascript">
-                                
-                            </script>
+                            <!--<button id="add" value="">Add New Bill</button>-->
+                            <input type="button" id="add" onclick="validateForm()" value="Add New Bill" />
                             <button id="reset" value="" onclick="reset()">Reset</button>
                         </p>
                     </form>
@@ -70,7 +116,7 @@
             </div>
             <div id="four">
                 <form action="" name="form2" method="post">
-                    <table border="1" align="center" width="100%" >
+                    <table border="1" align="center" width="100%">
                         <tr style="background-color: #FFFF99; text-align: right; table-layout: fixed; width: 100%; ">
                             <th>ID</th>
                             <th>Name</th>
@@ -114,12 +160,13 @@
                         }
                         ?>
                     </table>
+                    <div id="result"></div>
                     <p>
                         &#160 <button id="update">Update</button>
                     </p>
                 </form>
             </div>
         </div>
-        <script src="1.js" src="jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+
     </body>
 </html>

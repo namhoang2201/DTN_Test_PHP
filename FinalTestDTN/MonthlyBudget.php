@@ -37,14 +37,30 @@
                     type: "post",
                     dataType: "text",
                     data: {
-                        billId: $('#bill_id').val()
-                    },
+                        billId: $('#bill_id').val(),
+                        billName: $('#bill_name').val(),
+                        amount: $('#amount').val(),
+                        catId: $('#category').val(),
+                        isPaid: isChecked(),
+                    }
+                    ,
                     success: function (result) {
                         $('#result').html(result);
                     }
-                });
+                }
+                );
 
                 return true;
+            }
+
+            function isChecked() {
+                var bit = $('#is_paid')[0].checked;
+                if (bit == true) {
+                    bit = 1;
+                } else {
+                    bit = 0;
+                }
+                return bit;
             }
 
             function reset() {
@@ -97,7 +113,7 @@
                             </select>
                         </p>
                         <p>
-                            &#160 <input type="checkbox" id="is_paid" />
+                            &#160 <input type="checkbox" name="is_paid" id="is_paid" onsubmit="return isChecked()" />
                             Is Paid ?
                         </p>
                         <p>

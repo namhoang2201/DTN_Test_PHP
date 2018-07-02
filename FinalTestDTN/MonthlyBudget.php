@@ -45,11 +45,10 @@
                     }
                     ,
                     success: function (result) {
-                        $('#result').html(result);
+                        $('#result').append(result);
                     }
                 }
                 );
-
                 return true;
             }
 
@@ -129,7 +128,8 @@
             </div>
             <div id="four">
                 <form action="" name="form2" method="post">
-                    <table border="1" align="center" width="100%">
+                    <table border="1" align="center" width="100%" id="result">
+
                         <tr style="background-color: #FFFF99; text-align: right; table-layout: fixed; width: 100%; ">
                             <th>ID</th>
                             <th>Name</th>
@@ -137,40 +137,43 @@
                             <th>Category</th>
                             <th>Complete</th>
                         </tr>
-                        <?php
-                        $conn = mysqli_connect('localhost', 'root', '', 'budgetdb') or die('Can not connect to mysql');
-                        $query = mysqli_query($conn, "SELECT * FROM tblbills");
-                        if (mysqli_num_rows($query) > 0) {
-                            while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-                                $complete = $row['is_paid'];
-                                $category = $row['cat_id'];
-                                switch ($category) {
-                                    case 1:
-                                        $category = "Personal";
-                                        break;
-                                    case 2:
-                                        $category = "Family";
-                                        break;
-                                    case 3:
-                                        $category = "Important";
-                                        break;
+                        <div>
+
+                            <?php
+                            $conn = mysqli_connect('localhost', 'root', '', 'budgetdb') or die('Can not connect to mysql');
+                            $query = mysqli_query($conn, "SELECT * FROM tblbills");
+                            if (mysqli_num_rows($query) > 0) {
+                                while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+                                    $complete = $row['is_paid'];
+                                    $category = $row['cat_id'];
+                                    switch ($category) {
+                                        case 1:
+                                            $category = "Personal";
+                                            break;
+                                        case 2:
+                                            $category = "Family";
+                                            break;
+                                        case 3:
+                                            $category = "Important";
+                                            break;
+                                    }
+                                    echo '<tr id= "firstLoad">';
+                                    echo "<td>" . $row['id'] . "</td>";
+                                    echo "<td>" . $row['name'] . "</td>";
+                                    echo "<td>" . (int) $row['amount'] . "</td>";
+                                    echo "<td>" . $category . "</td>";
+                                    if ($complete == 0) {
+                                        echo "<td><input type='checkbox'></td>";
+                                    } else {
+                                        echo "<td><input type='checkbox' checked></td>";
+                                    }
+                                    echo '</tr>';
                                 }
-                                echo '<tr>';
-                                echo "<td>" . $row['id'] . "</td>";
-                                echo "<td>" . $row['name'] . "</td>";
-                                echo "<td>" . $row['amount'] . "</td>";
-                                echo "<td>" . $category . "</td>";
-                                if ($complete == 0) {
-                                    echo "<td><input type='checkbox'></td>";
-                                } else {
-                                    echo "<td><input type='checkbox' checked></td>";
-                                }
-                                echo '</tr>';
                             }
-                        }
-                        ?>
+                            ?>
+
+                        </div>
                     </table>
-                    <div id="result"></div>
                     <p>
                         &#160 <button id="update">Update</button>
                     </p>

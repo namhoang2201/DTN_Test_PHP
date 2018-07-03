@@ -8,8 +8,16 @@ $amount = isset($_POST['amount']) ? $_POST['amount'] : FALSE;
 $catId = isset($_POST['catId']) ? $_POST['catId'] : FALSE;
 $isPaid = isset($_POST['isPaid']) ? $_POST['isPaid'] : FALSE;
 
+// Biến sum là tổng tất cả các amount trước đó mà file MonthlyBudget.php gửi sang
+$sum = (int) $_POST['sum'];
 
 if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId != FALSE)) {
+    // Tổng mới sau mỗi lần thêm hóa đơn mới
+    $new_total = $sum + $amount;
+    
+    // Cập nhật lại tổng hiện tại
+    $sum = $new_total;
+
     // Kết nối tới cơ sở dữ liệu
     $con = new mysqli("localhost", "root", "", "budgetdb");
     if (mysqli_connect_errno()) {
@@ -65,12 +73,12 @@ if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId 
 
             echo '<tr align="right" id="tr1">';
             echo '<td colspan="2">Total</td>';
-            echo '<td></td>';
+            echo '<td>$ ' . $new_total . '</td>';
             echo '<td colspan="2"></td>';
             echo '</tr>';
             echo '<tr align="right" id="tr2">';
             echo '<td colspan="2">Remain</td>';
-            echo '<td></td>';
+            echo '<td> $ ' . (132000 - $new_total) . '</td>';
             echo '<td colspan="2"></td>';
             echo '</tr>';
         } else {

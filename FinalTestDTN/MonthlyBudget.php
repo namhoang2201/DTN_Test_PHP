@@ -32,7 +32,7 @@
                     alert("Please select a category !");
                     return false;
                 }
-                
+
                 // Gửi dữ liệu bằng ajax
                 $.ajax({
                     url: "addNewBill.php",
@@ -44,6 +44,7 @@
                         amount: $('#amount').val(),
                         catId: $('#category').val(),
                         isPaid: isChecked(),
+                        sum: $('#sum').val(),
                     }
                     ,
                     success: function (result) {
@@ -55,7 +56,7 @@
                 );
                 return true;
             }
-            
+
             // Hàm lấy giá trị trả về 0 nếu checkbox không được tích, trả về 1 nếu checkbox được tích
             function isChecked() {
                 var bit = $('#is_paid')[0].checked;
@@ -66,7 +67,7 @@
                 }
                 return bit;
             }
-            
+
             // Hàm reset lại form nhập liệu về như trạng thái mặc định
             function reset() {
                 document.getElementById("form1").reset();
@@ -185,16 +186,19 @@
                             ?>
                             <tr align="right" id="tr1">
                                 <td colspan="2">Total</td>
-                                <td></td>
+                                <td><?php echo "$ " . $total ?></td>
                                 <td colspan="2"></td>
                             </tr>
                             <tr align="right" id="tr2">
                                 <td colspan="2">Remain</td>
-                                <td></td>
+                                <td> <?php echo "$ " . (132000 - $total); ?></td>
                                 <td colspan="2"></td>
                             </tr>
                         </tbody>
                     </table>
+                    <p>
+                        <input type="hidden" id="sum" value="<?php echo $total ?>"/>
+                    </p>
                     <p>
                         &#160 <button id="update">Update</button>
                     </p>

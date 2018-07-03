@@ -7,6 +7,7 @@
         <script language="javascript" src="jquery-3.2.1.js"></script>
         <script language="javascript">
 
+            // Hàm kiểm tra việc nhập dữ liệu vào form
             function validateForm() {
                 var ho = $('#bill_id').val();
                 if (ho == "") {
@@ -31,7 +32,8 @@
                     alert("Please select a category !");
                     return false;
                 }
-
+                
+                // Gửi dữ liệu bằng ajax
                 $.ajax({
                     url: "addNewBill.php",
                     type: "post",
@@ -45,13 +47,16 @@
                     }
                     ,
                     success: function (result) {
+                        $('#tr1').remove();
+                        $('#tr2').remove();
                         $('#mybody').append(result);
                     }
                 }
                 );
                 return true;
             }
-
+            
+            // Hàm lấy giá trị trả về 0 nếu checkbox không được tích, trả về 1 nếu checkbox được tích
             function isChecked() {
                 var bit = $('#is_paid')[0].checked;
                 if (bit == true) {
@@ -61,7 +66,8 @@
                 }
                 return bit;
             }
-
+            
+            // Hàm reset lại form nhập liệu về như trạng thái mặc định
             function reset() {
                 document.getElementById("form1").reset();
             }
@@ -177,8 +183,15 @@
                                 }
                             }
                             ?>
-                            <tr id="result" align="right">
-
+                            <tr align="right" id="tr1">
+                                <td colspan="2">Total</td>
+                                <td></td>
+                                <td colspan="2"></td>
+                            </tr>
+                            <tr align="right" id="tr2">
+                                <td colspan="2">Remain</td>
+                                <td></td>
+                                <td colspan="2"></td>
                             </tr>
                         </tbody>
                     </table>

@@ -48,7 +48,11 @@ if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId 
             // Hiển thị hàng mới nhất được thêm vào cơ sở dữ liệu
             echo '<tr align="right">';
             echo "<td>" . $billId . "</td>";
-            echo "<td>" . $billName . "</td>";
+            if ($isPaid == 0) {
+                echo "<td>" . $billName . "</td>";
+            } else {
+                echo "<td style='text-decoration: line-through;'>" . $billName . "</td>";
+            }
             echo "<td> $ " . $amount . "</td>";
             echo "<td>" . $catId . "</td>";
 
@@ -57,6 +61,17 @@ if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId 
             } else {
                 echo "<td><input type='checkbox' checked></td>";
             }
+            echo '</tr>';
+
+            echo '<tr align="right" id="tr1">';
+            echo '<td colspan="2">Total</td>';
+            echo '<td></td>';
+            echo '<td colspan="2"></td>';
+            echo '</tr>';
+            echo '<tr align="right" id="tr2">';
+            echo '<td colspan="2">Remain</td>';
+            echo '<td></td>';
+            echo '<td colspan="2"></td>';
             echo '</tr>';
         } else {
             // Nếu đã tồi tại Bill ID, ta thông báo cho người dùng

@@ -60,7 +60,9 @@ and open the template in the editor.
 
 table{
     border: 1px solid back;
+    align-items: right;
 }
 th, td{
     width: 20%;
+    
 }

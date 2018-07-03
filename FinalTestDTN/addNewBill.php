@@ -8,6 +8,7 @@ $amount = isset($_POST['amount']) ? $_POST['amount'] : FALSE;
 $catId = isset($_POST['catId']) ? $_POST['catId'] : FALSE;
 $isPaid = isset($_POST['isPaid']) ? $_POST['isPaid'] : FALSE;
 
+
 if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId != FALSE)) {
     // Kết nối tới cơ sở dữ liệu
     $con = new mysqli("localhost", "root", "", "budgetdb");
@@ -29,6 +30,7 @@ if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId 
                     $catIdd = 3;
                     break;
             }
+
             // Xác định biến cục bộ $isPaid
             switch ($isPaid) {
                 case 0:
@@ -42,12 +44,14 @@ if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId 
 
             // Thực hiện thêm bản ghi vào danh sách 
             $insert = mysqli_query($con, $str);
+
             // Hiển thị hàng mới nhất được thêm vào cơ sở dữ liệu
-            echo '<tr>';
+            echo '<tr align="right">';
             echo "<td>" . $billId . "</td>";
             echo "<td>" . $billName . "</td>";
-            echo "<td>" . $amount . "</td>";
+            echo "<td> $ " . $amount . "</td>";
             echo "<td>" . $catId . "</td>";
+
             if ($isPaid == 0) {
                 echo "<td><input type='checkbox'></td>";
             } else {

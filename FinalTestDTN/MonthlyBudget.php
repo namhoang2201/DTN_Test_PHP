@@ -45,7 +45,7 @@
                     }
                     ,
                     success: function (result) {
-                        $('#result').append(result);
+                        $('#mybody').append(result);
                     }
                 }
                 );
@@ -128,22 +128,24 @@
             </div>
             <div id="four">
                 <form action="" name="form2" method="post">
-                    <table border="1" align="center" width="100%" id="result">
-
-                        <tr style="background-color: #FFFF99; text-align: right; table-layout: fixed; width: 100%; ">
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Amount</th>
-                            <th>Category</th>
-                            <th>Complete</th>
-                        </tr>
-                        <div>
-
+                    <table border="1" align="center" width="100%" id="mytable">
+                        <thead>
+                            <tr style="background-color: #FFFF99; text-align: right; table-layout: fixed; width: 100%; ">
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Category</th>
+                                <th>Complete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mybody">
                             <?php
+                            $total = 0;
                             $conn = mysqli_connect('localhost', 'root', '', 'budgetdb') or die('Can not connect to mysql');
                             $query = mysqli_query($conn, "SELECT * FROM tblbills");
                             if (mysqli_num_rows($query) > 0) {
                                 while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+                                    $total += (int) $row['amount'];
                                     $complete = $row['is_paid'];
                                     $category = $row['cat_id'];
                                     switch ($category) {
@@ -157,10 +159,14 @@
                                             $category = "Important";
                                             break;
                                     }
-                                    echo '<tr id= "firstLoad">';
+                                    echo '<tr id= "firstLoad" align="right">';
                                     echo "<td>" . $row['id'] . "</td>";
-                                    echo "<td>" . $row['name'] . "</td>";
-                                    echo "<td>" . (int) $row['amount'] . "</td>";
+                                    if ($complete == 0) {
+                                        echo "<td>" . $row['name'] . "</td>";
+                                    } else {
+                                        echo "<td style='text-decoration: line-through;'>" . $row['name'] . "</td>";
+                                    }
+                                    echo "<td> $ " . (int) $row['amount'] . "</td>";
                                     echo "<td>" . $category . "</td>";
                                     if ($complete == 0) {
                                         echo "<td><input type='checkbox'></td>";
@@ -171,8 +177,10 @@
                                 }
                             }
                             ?>
+                            <tr id="result" align="right">
 
-                        </div>
+                            </tr>
+                        </tbody>
                     </table>
                     <p>
                         &#160 <button id="update">Update</button>

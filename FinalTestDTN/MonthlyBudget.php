@@ -1,10 +1,14 @@
+<?php
+// Khai báo biến mảng toàn cục, lưu tất cả các checkbox trong table, cả được tích và không được tích
+$complete_all = array();
+?>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta charset = "utf-8">
+        <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
         <title>Monthly Budget</title>
-        <script language="javascript" src="jquery-3.2.1.js"></script>
+        <script language = "javascript" src = "jquery-3.2.1.js"></script>
         <script language="javascript">
 
             // Hàm kiểm tra việc nhập dữ liệu vào form
@@ -72,6 +76,7 @@
             function reset() {
                 document.getElementById("form1").reset();
             }
+
         </script>
 
         <link rel="stylesheet" type="text/css" href="1.css">
@@ -134,7 +139,7 @@
                 &#160 Bill List
             </div>
             <div id="four">
-                <form action="" name="form2" method="post">
+                <form action="<?php echo($_SERVER['PHP_SELF']); ?>" name="form2" method="post">
                     <table border="1" align="center" width="100%" id="mytable">
                         <thead>
                             <tr style="background-color: #FFFF99; text-align: right; table-layout: fixed; width: 100%; ">
@@ -153,6 +158,7 @@
                             if (mysqli_num_rows($query) > 0) {
                                 while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
                                     $total += (int) $row['amount'];
+                                    $id = $row['id'];
                                     $complete = $row['is_paid'];
                                     $category = $row['cat_id'];
                                     switch ($category) {
@@ -176,9 +182,13 @@
                                     echo "<td> $ " . (int) $row['amount'] . "</td>";
                                     echo "<td>" . $category . "</td>";
                                     if ($complete == 0) {
-                                        echo "<td><input type='checkbox'></td>";
+                                        echo "<td><input type='checkbox' name='complete[" . $id . "] value = '0'></td>";
+                                        // Thêm lần lượt từng checkbox vào mảng toàn thể
+                                        $complete_all[$id] = 0;
                                     } else {
-                                        echo "<td><input type='checkbox' checked></td>";
+                                        echo "<td><input type='checkbox' name='complete[" . $id . "] value = '1' checked></td>";
+                                        // Thêm lần lượt từng checkbox vào mảng toàn thể
+                                        $complete_all[$id] = 1;
                                     }
                                     echo '</tr>';
                                 }
@@ -200,7 +210,56 @@
                         <input type="hidden" id="sum" value="<?php echo $total ?>"/>
                     </p>
                     <p>
-                        &#160 <button id="update">Update</button>
+                        &#160 <button type="submit" id="update" name="update">Update</button>
+                        <?php
+                        if (isset($_POST['update'])) {
+                            if (!empty($_POST['complete'])) {
+                                // Mảng complete lưu tất cả các checkbox được tích, bao gồm cả sau khi update
+                                // Mảng complete là mảng con của complete_all
+                                $complete = $_POST['complete'];
+
+                                // Cập nhật, đặt tất cả các checkbox được tích giấ trị bằng 1, lưu vào cơ sở dữ liệu
+                                foreach ($complete as $key => $value) {
+                                    $con = new mysqli("localhost", "root", "", "budgetdb");
+                                    if (mysqli_connect_errno()) {
+                                        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                                    } else {
+                                        $update = mysqli_query($con, "UPDATE tblbills SET is_paid = 1 WHERE id = '" . $key . "'");
+                                    }
+                                }
+
+                                // Đặt tất cả các checkbox không được tích giá trị bằng 0, lưu vào cơ sở dữ liệu
+                                // Duyệt toàn bộ mảng complete_all, 
+                                foreach ($complete_all as $key => $value) {
+                                    // Tìm xem key nào không có trong mảng complete thì đặt value bằng 0
+                                    if (!array_key_exists($key, $complete)) {
+                                        $con = new mysqli("localhost", "root", "", "budgetdb");
+                                        if (mysqli_connect_errno()) {
+                                            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                                        } else {
+                                            $update = mysqli_query($con, "UPDATE tblbills SET is_paid = 0 WHERE id = '" . $key . "'");
+                                        }
+                                    }
+                                }
+                                // Refresh page
+                                
+                                echo "<script language='javascript'>alert('Update successfully !')</script>";
+                            } else {
+                                // Nếu bỏ tích tất cả thì cập nhật tất cả value của mảng complete_all về 0 và cả trong cơ sở dữ liệu
+
+                                $con = new mysqli("localhost", "root", "", "budgetdb");
+                                if (mysqli_connect_errno()) {
+                                    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                                } else {
+                                    $update = mysqli_query($con, "UPDATE tblbills SET is_paid = 0");
+                                }
+                                // Refresh page
+                                
+                                echo "<script language='javascript'>alert('You have already unchecked all successfully !')</script>";
+                            }
+                        }
+                        ?>
+
                     </p>
                 </form>
             </div>

@@ -242,7 +242,7 @@ $complete_all = array();
                                     }
                                 }
                                 // Refresh page
-                                
+
                                 echo "<script language='javascript'>alert('Update successfully !')</script>";
                             } else {
                                 // Nếu bỏ tích tất cả thì cập nhật tất cả value của mảng complete_all về 0 và cả trong cơ sở dữ liệu
@@ -254,7 +254,6 @@ $complete_all = array();
                                     $update = mysqli_query($con, "UPDATE tblbills SET is_paid = 0");
                                 }
                                 // Refresh page
-                                
                                 echo "<script language='javascript'>alert('You have already unchecked all successfully !')</script>";
                             }
                         }

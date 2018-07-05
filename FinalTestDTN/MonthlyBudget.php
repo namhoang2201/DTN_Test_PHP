@@ -1,4 +1,5 @@
 <?php
+ob_start();
 // Khai báo biến mảng toàn cục, lưu tất cả các checkbox trong table, cả được tích và không được tích
 $complete_all = array();
 ?>
@@ -97,19 +98,19 @@ $complete_all = array();
                 <div id="two2">
                     <form action="#" method="post" name="form1" id="form1">
                         <p>
-                            &#160 <input type="text" id="account" value="132000" style="width: 30%" readonly /> $
+                            &#160; <input type="text" id="account" value="132000" style="width: 30%" readonly /> $
                         </p>
                         <p>
-                            &#160 <input type="text" id="bill_id" value="" style="width: 15%" />
+                            &#160; <input type="text" id="bill_id" value="" style="width: 15%" />
                         </p>
                         <p>
-                            &#160 <input type="text" id="bill_name" value="" style="width: 50%" />
+                            &#160; <input type="text" id="bill_name" value="" style="width: 50%" />
                         </p>
                         <p>
-                            &#160 <input type="number" id="amount" value="" style="width: 50%"  onkeyup="value = isNaN(parseFloat(value)) ? '' : value" /> $
+                            &#160; <input type="number" id="amount" value="" style="width: 50%"  onkeyup="value = isNaN(parseFloat(value)) ? '' : value" /> $
                         </p>
                         <p>
-                            &#160
+                            &#160;
                             <?php
                             $conn = mysqli_connect('localhost', 'root', '', 'budgetdb') or die('Can not connect to mysql');
                             $query = mysqli_query($conn, "SELECT * FROM tblbillcategories");
@@ -124,7 +125,7 @@ $complete_all = array();
                             </select>
                         </p>
                         <p>
-                            &#160 <input type="checkbox" name="is_paid" id="is_paid" onsubmit="return isChecked()" />
+                            &#160; <input type="checkbox" name="is_paid" id="is_paid" onsubmit="return isChecked()" />
                             Is Paid ?
                         </p>
                         <p>
@@ -136,7 +137,7 @@ $complete_all = array();
                 </div>
             </div>
             <div id="three">
-                &#160 Bill List
+                &#160; Bill List
             </div>
             <div id="four">
                 <form action="<?php echo($_SERVER['PHP_SELF']); ?>" name="form2" method="post">
@@ -182,11 +183,11 @@ $complete_all = array();
                                     echo "<td> $ " . (int) $row['amount'] . "</td>";
                                     echo "<td>" . $category . "</td>";
                                     if ($complete == 0) {
-                                        echo "<td><input type='checkbox' name='complete[" . $id . "] value = '0'></td>";
+                                        echo "<td><input type='checkbox' name='complete[" . $id . "]' value = 0></td>";
                                         // Thêm lần lượt từng checkbox vào mảng toàn thể
                                         $complete_all[$id] = 0;
                                     } else {
-                                        echo "<td><input type='checkbox' name='complete[" . $id . "] value = '1' checked></td>";
+                                        echo "<td><input type='checkbox' name='complete[" . $id . "]' value = 1 checked></td>";
                                         // Thêm lần lượt từng checkbox vào mảng toàn thể
                                         $complete_all[$id] = 1;
                                     }
@@ -210,10 +211,10 @@ $complete_all = array();
                         <input type="hidden" id="sum" value="<?php echo $total ?>"/>
                     </p>
                     <p>
-                        &#160 <button type="submit" id="update" name="update">Update</button>
+                        &#160; <button type="submit" id="update" name="update">Update</button>
                         <?php
                         if (isset($_POST['update'])) {
-                            if (!empty($_POST['complete'])) {
+                            if (isset($_POST['complete'])) {
                                 // Mảng complete lưu tất cả các checkbox được tích, bao gồm cả sau khi update
                                 // Mảng complete là mảng con của complete_all
                                 $complete = $_POST['complete'];
@@ -241,22 +242,25 @@ $complete_all = array();
                                         }
                                     }
                                 }
-                                // Refresh page
 
+                                // Refresh page
                                 echo "<script language='javascript'>alert('Update successfully !')</script>";
+                                header("Location: " . $_SERVER['PHP_SELF']);
                             } else {
                                 // Nếu bỏ tích tất cả thì cập nhật tất cả value của mảng complete_all về 0 và cả trong cơ sở dữ liệu
-
                                 $con = new mysqli("localhost", "root", "", "budgetdb");
                                 if (mysqli_connect_errno()) {
                                     echo "Failed to connect to MySQL: " . mysqli_connect_error();
                                 } else {
                                     $update = mysqli_query($con, "UPDATE tblbills SET is_paid = 0");
                                 }
+
                                 // Refresh page
                                 echo "<script language='javascript'>alert('You have already unchecked all successfully !')</script>";
+                                header("Location: " . $_SERVER['PHP_SELF']);
                             }
                         }
+                        ob_end_flush();
                         ?>
 
                     </p>

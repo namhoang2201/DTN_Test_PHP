@@ -98,7 +98,7 @@ $complete_all = array();
                 <div id="two2">
                     <form action="#" method="post" name="form1" id="form1">
                         <p>
-                            &#160; <input type="text" id="account" value="132000" style="width: 30%" readonly /> $
+                            &#160; <input type="text" id="account" placeholder="132000" style="width: 30%" readonly /> $
                         </p>
                         <p>
                             &#160; <input type="text" id="bill_id" value="" style="width: 15%" />

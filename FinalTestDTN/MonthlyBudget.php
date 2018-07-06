@@ -98,16 +98,16 @@ $complete_all = array();
                 <div id="two2">
                     <form action="#" method="post" name="form1" id="form1">
                         <p>
-                            &#160; <input type="text" id="account" placeholder="132000" style="width: 30%" readonly /> $
+                            &#160; <input type="text" id="account" placeholder="132000" style="width: 20%" readonly /> $
                         </p>
                         <p>
                             &#160; <input type="text" id="bill_id" value="" style="width: 15%" />
                         </p>
                         <p>
-                            &#160; <input type="text" id="bill_name" value="" style="width: 50%" />
+                            &#160; <input type="text" id="bill_name" value="" style="width: 30%" />
                         </p>
                         <p>
-                            &#160; <input type="number" id="amount" value="" style="width: 50%"  onkeyup="value = isNaN(parseFloat(value)) ? '' : value" /> $
+                            &#160; <input type="number" id="amount" value="" style="width: 30%"  onkeyup="value = isNaN(parseFloat(value)) ? '' : value" /> $
                         </p>
                         <p>
                             &#160;
@@ -115,7 +115,7 @@ $complete_all = array();
                             $conn = mysqli_connect('localhost', 'root', '', 'budgetdb') or die('Can not connect to mysql');
                             $query = mysqli_query($conn, "SELECT * FROM tblbillcategories");
                             ?>
-                            <select name="bill_on" id="category" style="width: 30%">
+                            <select name="bill_on" id="category" style="width: 20%">
                                 <option value="">-- Select a category --</option>
                                 <?php
                                 while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)):
@@ -144,11 +144,15 @@ $complete_all = array();
                     <table border="1" align="center" width="100%" id="mytable">
                         <thead>
                             <tr style="background-color: #FFFF99; text-align: right; table-layout: fixed; width: 100%; ">
-                                <th>ID</th>
+                                <th>
+                                    ID
+                                    <input type="checkbox" name="list[]" id="all"/>
+                                </th>
                                 <th>Name</th>
                                 <th>Amount</th>
                                 <th>Category</th>
                                 <th>Complete</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="mybody">
@@ -174,7 +178,7 @@ $complete_all = array();
                                             break;
                                     }
                                     echo '<tr id= "firstLoad" align="right">';
-                                    echo "<td>" . $row['id'] . "</td>";
+                                    echo "<td>" . $row['id'] . "<input type='checkbox' name='list[".$id."]'/></td>";
                                     if ($complete == 0) {
                                         echo "<td>" . $row['name'] . "</td>";
                                     } else {
@@ -191,6 +195,10 @@ $complete_all = array();
                                         // Thêm lần lượt từng checkbox vào mảng toàn thể
                                         $complete_all[$id] = 1;
                                     }
+                                    echo "<td>"
+                                    . "<input type='button' name='edit[".$id."]' value='   Edit  ' /> &nbsp"
+                                    . "<input type='button' name='delete[".$id."]' value='Delete' />"
+                                    . "</td>";
                                     echo '</tr>';
                                 }
                             }
@@ -198,12 +206,12 @@ $complete_all = array();
                             <tr align="right" id="tr1">
                                 <td colspan="2">Total</td>
                                 <td><?php echo "$ " . $total ?></td>
-                                <td colspan="2"></td>
+                                <td colspan="3"></td>
                             </tr>
                             <tr align="right" id="tr2">
                                 <td colspan="2">Remain</td>
                                 <td> <?php echo "$ " . (132000 - $total); ?></td>
-                                <td colspan="2"></td>
+                                <td colspan="3"></td>
                             </tr>
                         </tbody>
                     </table>

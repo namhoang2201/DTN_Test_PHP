@@ -14,7 +14,7 @@ $sum = (int) $_POST['sum'];
 if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId != FALSE)) {
     // Tổng mới sau mỗi lần thêm hóa đơn mới
     $new_total = $sum + $amount;
-    
+
     // Cập nhật lại tổng hiện tại
     $sum = $new_total;
 
@@ -55,7 +55,7 @@ if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId 
 
             // Hiển thị hàng mới nhất được thêm vào cơ sở dữ liệu
             echo '<tr align="right">';
-            echo "<td>" . $billId . "</td>";
+            echo "<td>" . $billId . "<input type='checkbox' name='list[" . $billId . "]'/></td>";
             if ($isPaid == 0) {
                 echo "<td>" . $billName . "</td>";
             } else {
@@ -69,6 +69,10 @@ if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId 
             } else {
                 echo "<td><input type='checkbox' checked></td>";
             }
+            echo "<td>"
+            . "<input type='button' name='edit[" . $billId . "]' value='   Edit  ' /> &nbsp"
+            . "<input type='button' name='delete[" . $billId . "]' value='Delete' />"
+            . "</td>";
             echo '</tr>';
 
             echo '<tr align="right" id="tr1">';

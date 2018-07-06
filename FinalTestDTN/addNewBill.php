@@ -70,20 +70,20 @@ if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId 
                 echo "<td><input type='checkbox' checked></td>";
             }
             echo "<td>"
-            . "<input type='button' name='edit[" . $billId . "]' value='   Edit  ' /> &nbsp"
-            . "<input type='button' name='delete[" . $billId . "]' value='Delete' />"
+            . "<a href='edit.php?id=" . $billId . "' >Edit</a> &nbsp"
+            . "<a onclick='confirm(\"Are you sure ?\")' href='MonthlyBudget.php?idd=" . $billId . "' >Delete</a>"
             . "</td>";
             echo '</tr>';
 
             echo '<tr align="right" id="tr1">';
             echo '<td colspan="2">Total</td>';
             echo '<td>$ ' . $new_total . '</td>';
-            echo '<td colspan="2"></td>';
+            echo '<td colspan="3"></td>';
             echo '</tr>';
             echo '<tr align="right" id="tr2">';
             echo '<td colspan="2">Remain</td>';
             echo '<td> $ ' . (132000 - $new_total) . '</td>';
-            echo '<td colspan="2"></td>';
+            echo '<td colspan="3"></td>';
             echo '</tr>';
         } else {
             // Nếu đã tồi tại Bill ID, ta thông báo cho người dùng

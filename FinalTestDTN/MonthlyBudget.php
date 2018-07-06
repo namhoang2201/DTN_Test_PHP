@@ -9,6 +9,8 @@ $complete_all = array();
         <meta charset = "utf-8">
         <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
         <title>Monthly Budget</title>
+        <link rel="stylesheet" type="text/css" href="1.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script language = "javascript" src = "jquery-3.2.1.js"></script>
         <script language="javascript">
 
@@ -79,8 +81,6 @@ $complete_all = array();
             }
 
         </script>
-
-        <link rel="stylesheet" type="text/css" href="1.css">
     </head>
     <body>
         <div id="father">
@@ -141,7 +141,7 @@ $complete_all = array();
             </div>
             <div id="four">
                 <form action="<?php echo($_SERVER['PHP_SELF']); ?>" name="form2" method="post">
-                    <table border="1" align="center" width="100%" id="mytable">
+                    <table border="1" align="right" width="100%" id="mytable">
                         <thead>
                             <tr style="background-color: #FFFF99; text-align: right; table-layout: fixed; width: 100%; ">
                                 <th>
@@ -177,8 +177,8 @@ $complete_all = array();
                                             $category = "Important";
                                             break;
                                     }
-                                    echo '<tr id= "firstLoad" align="right">';
-                                    echo "<td>" . $row['id'] . "<input type='checkbox' name='list[".$id."]'/></td>";
+                                    echo '<tr id=' . $id . ' align="right">';
+                                    echo "<td>" . $row['id'] . "<input type='checkbox' name='list[" . $id . "]'/></td>";
                                     if ($complete == 0) {
                                         echo "<td>" . $row['name'] . "</td>";
                                     } else {
@@ -196,23 +196,45 @@ $complete_all = array();
                                         $complete_all[$id] = 1;
                                     }
                                     echo "<td>"
-                                    . "<input type='button' name='edit[".$id."]' value='   Edit  ' /> &nbsp"
-                                    . "<input type='button' name='delete[".$id."]' value='Delete' />"
+                                    . "<a href='edit.php?id=" . $id . "' >Edit</a> &nbsp"
+                                    . "<a onclick='return confirm(\"Are you sure ?\")' href='MonthlyBudget.php?idd=" . $id . "' >Delete</a>"
                                     . "</td>";
                                     echo '</tr>';
                                 }
                             }
-                            ?>
-                            <tr align="right" id="tr1">
-                                <td colspan="2">Total</td>
-                                <td><?php echo "$ " . $total ?></td>
-                                <td colspan="3"></td>
-                            </tr>
-                            <tr align="right" id="tr2">
-                                <td colspan="2">Remain</td>
-                                <td> <?php echo "$ " . (132000 - $total); ?></td>
-                                <td colspan="3"></td>
-                            </tr>
+
+                            // Xóa từng phần tử khi bấm vào các nút delete ở bên phải của bảng
+                            if (isset($_GET["idd"])) {
+                                $idd = $_GET["idd"];
+                                $conn = mysqli_connect('localhost', 'root', '', 'budgetdb') or die('Can not connect to mysql');
+                                $result = mysqli_query($conn, "DELETE FROM tblbills WHERE id = '" . $idd . "'");
+                                if ($result) {
+                                    ?>
+                                <script>
+                                    alert('Success to delete data !');
+                                    window.location.href = 'MonthlyBudget.php';
+                                </script>;
+                                <?php
+                            } else {
+                                ?>
+                                <script>
+                                    alert('Fail to delete data !');
+                                    window.location.href = 'MonthlyBudget.php';
+                                </script>;
+                                <?php
+                            }
+                        }
+                        ?>
+                        <tr align="right" id="tr1">
+                            <td colspan="2">Total</td>
+                            <td><?php echo "$ " . $total ?></td>
+                            <td colspan="3"></td>
+                        </tr>
+                        <tr align="right" id="tr2">
+                            <td colspan="2">Remain</td>
+                            <td> <?php echo "$ " . (132000 - $total); ?></td>
+                            <td colspan="3"></td>
+                        </tr>
                         </tbody>
                     </table>
                     <p>
@@ -221,6 +243,7 @@ $complete_all = array();
                     <p>
                         &#160; <button type="submit" id="update" name="update">Update</button>
                         <?php
+                        // Code cập nhật dữ liệu
                         if (isset($_POST['update'])) {
                             if (isset($_POST['complete'])) {
                                 // Mảng complete lưu tất cả các checkbox được tích, bao gồm cả sau khi update
@@ -252,8 +275,12 @@ $complete_all = array();
                                 }
 
                                 // Refresh page
-                                echo "<script language='javascript'>alert('Update successfully !')</script>";
-                                header("Location: " . $_SERVER['PHP_SELF']);
+                                ?>
+                                <script>
+                                    alert('Update successfully !');
+                                    window.location.href = 'MonthlyBudget.php';
+                                </script>;
+                                <?php
                             } else {
                                 // Nếu bỏ tích tất cả thì cập nhật tất cả value của mảng complete_all về 0 và cả trong cơ sở dữ liệu
                                 $con = new mysqli("localhost", "root", "", "budgetdb");
@@ -264,10 +291,21 @@ $complete_all = array();
                                 }
 
                                 // Refresh page
-                                echo "<script language='javascript'>alert('You have already unchecked all successfully !')</script>";
-                                header("Location: " . $_SERVER['PHP_SELF']);
+                                ?>
+                                <script>
+                                    alert('Update successfully !');
+                                    window.location.href = 'MonthlyBudget.php';
+                                </script>
+                                <?php
                             }
                         }
+                        // Xóa dữ liệu từng hàng một
+                        if (isset($_POST['delete1'])) {
+
+                            $delete1 = $_POST['delete1'];
+                            var_dump($delete1);
+                        }
+
                         ob_end_flush();
                         ?>
 

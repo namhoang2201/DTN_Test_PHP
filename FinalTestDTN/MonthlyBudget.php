@@ -80,6 +80,20 @@ $complete_all = array();
                 document.getElementById("form1").reset();
             }
 
+            function dongbo() {
+                var all = $('#all')[0].checked;
+                if (all == true) {
+<?php
+$list = $_POST['list'];
+foreach ($list as $key => $value) {
+    ?>
+                        $("#".<?php echo $key ?>."")[0].checked = true;
+    <?php
+}
+?>
+                }
+            }
+
         </script>
     </head>
     <body>
@@ -88,11 +102,11 @@ $complete_all = array();
                 &#160; Add New Bill
             </div>
             <div id="two">
-                <div id="two1"> <br>
+                <div id="two1"> 
                     Account <br> <br>
                     Bill ID <br> <br>
-                    Bill Name
-                    <p>Amount</p>
+                    Bill Name 
+                    <p><br>Amount</p>
                     <p>Bill on</p>
                 </div>
                 <div id="two2">
@@ -143,10 +157,10 @@ $complete_all = array();
                 <form action="<?php echo($_SERVER['PHP_SELF']); ?>" name="form2" method="post">
                     <table border="1" align="right" width="100%" id="mytable">
                         <thead>
-                            <tr style="background-color: #FFFF99; text-align: right; table-layout: fixed; width: 100%; ">
+                            <tr style="background-color: #FFFF99; align: right; table-layout: fixed; width: 100%; ">
                                 <th>
-                                    ID
-                                    <input type="checkbox" name="list[]" id="all"/>
+                                    ID &nbsp;
+                                    <input type="checkbox" name="list[0]" id="all" onclick="dongbo()"/>
                                 </th>
                                 <th>Name</th>
                                 <th>Amount</th>
@@ -178,7 +192,7 @@ $complete_all = array();
                                             break;
                                     }
                                     echo '<tr id=' . $id . ' align="right">';
-                                    echo "<td>" . $row['id'] . "<input type='checkbox' name='list[" . $id . "]'/></td>";
+                                    echo "<td>" . $row['id'] . "&nbsp;&nbsp;<input type='checkbox' id='" . $id . "' name='list[" . $id . "]'/></td>";
                                     if ($complete == 0) {
                                         echo "<td>" . $row['name'] . "</td>";
                                     } else {
@@ -242,6 +256,7 @@ $complete_all = array();
                     </p>
                     <p>
                         &#160; <button type="submit" id="update" name="update">Update</button>
+                        &#160; <button type="submit" id="delete_many" name="delete_many" onclick="return confirm('Are you sure ?')">Delete</button>
                         <?php
                         // Code cập nhật dữ liệu
                         if (isset($_POST['update'])) {
@@ -299,11 +314,45 @@ $complete_all = array();
                                 <?php
                             }
                         }
-                        // Xóa dữ liệu từng hàng một
-                        if (isset($_POST['delete1'])) {
 
-                            $delete1 = $_POST['delete1'];
-                            var_dump($delete1);
+                        // Xóa một hoặc nhiều bản ghi bằng cách tích vào nhiều checkbox ở cột đầu tiên bên trái
+                        if (isset($_POST['delete_many'])) {
+                            if (isset($_POST['list'])) {
+                                // many_choices là mảng lưu tất cả các checkbox được tích ở cột bên trái
+                                $many_choices = $_POST['list'];
+                                // Xóa tất cả các bản ghi trong cơ sở dữ liệu có checkbox được tích ở cột bên trái trên page
+                                $flag = TRUE;
+                                foreach ($many_choices as $key => $value) {
+                                    $con = new mysqli("localhost", "root", "", "budgetdb");
+                                    if (mysqli_connect_errno()) {
+                                        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                                    } else {
+                                        $flag = mysqli_query($con, "DELETE FROM tblbills WHERE id = '" . $key . "'");
+                                    }
+                                }
+                                if ($flag == FALSE) {
+                                    ?>
+                                    <script>
+                                        alert('Fail to delete data !');
+                                        window.location.href = 'MonthlyBudget.php';
+                                    </script>;
+                                    <?php
+                                } else {
+                                    ?>
+                                    <script>
+                                        alert('Delete data successfully !');
+                                        window.location.href = 'MonthlyBudget.php';
+                                    </script>;
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <script>
+                                    alert('You have not chosen anything !');
+                                    window.location.href = 'MonthlyBudget.php';
+                                </script>;
+                                <?php
+                            }
                         }
 
                         ob_end_flush();

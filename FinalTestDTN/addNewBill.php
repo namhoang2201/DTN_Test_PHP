@@ -55,7 +55,7 @@ if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId 
 
             // Hiển thị hàng mới nhất được thêm vào cơ sở dữ liệu
             echo '<tr align="right">';
-            echo "<td>" . $billId . "<input type='checkbox' name='list[" . $billId . "]'/></td>";
+            echo "<td>" . $billId . " &nbsp;&nbsp;<input type='checkbox' name='list[" . $billId . "]'/></td>";
             if ($isPaid == 0) {
                 echo "<td>" . $billName . "</td>";
             } else {

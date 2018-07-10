@@ -171,12 +171,12 @@ $complete_all = array();
         <div id="four">
             <form action="<?php echo($_SERVER['PHP_SELF']); ?>" name="form2" method="post">
                 <table border="1" align="right" width="100%" id="mytable">
-                    <thead>
-                        <tr style="background-color: #FFFF99; align: right; table-layout: fixed; width: 100%; ">
+                    <thead style="background-color: #FFFF99; align: right; table-layout: fixed; width: 100%; ">
+                        <tr>
                             <th>
                                 ID <input type="checkbox" id="select_all" onclick="change()" />
                             </th>
-                            <th>Name</th>
+                            <th align="right">Name</th>
                             <th>Amount</th>
                             <th>Category</th>
                             <th>Complete</th>

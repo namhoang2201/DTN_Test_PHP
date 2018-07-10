@@ -66,4 +66,7 @@ table{
 th, td{
     width: 16%;
 }
+thead{
+    align:right;
+}
 

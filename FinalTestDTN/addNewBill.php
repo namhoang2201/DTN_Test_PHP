@@ -19,7 +19,7 @@ if (($billId != FALSE) && ($billName != FALSE) && ($amount != FALSE) && ($catId 
     $sum = $new_total;
 
     // Kết nối tới cơ sở dữ liệu
-    $con = new mysqli("localhost", "root", "", "budgetdb");
+    $con = new mysqli("localhost", "root", "namhoang", "budgetdb");
     if (mysqli_connect_errno()) {
         echo "Failed to connect to MySQL: " . mysqli_connect_error();
     } else {

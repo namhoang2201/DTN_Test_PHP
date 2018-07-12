@@ -2,7 +2,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="2.css">
+        <link rel="stylesheet" type="text/css" href="./CSS/edit.css">
         <title>Edit Data Page</title>
         <script type="text/javascript">
             function return_home() {
@@ -30,7 +30,7 @@
                         $paid = 0;
                         if (isset($_GET['id'])) {
                             $id = $_GET['id'];
-                            $conn = mysqli_connect('localhost', 'root', '', 'budgetdb') or die('Can not connect to mysql');
+                            $conn = mysqli_connect('localhost', 'root', 'namhoang', 'budgetdb') or die('Can not connect to mysql');
                             $query = mysqli_query($conn, "SELECT * FROM tblbills WHERE id = '" . $id . "'");
                             if (!isset($query) || $query->num_rows == 0) {
                                 echo '<script>alert("Connect database error !");</script>';
@@ -44,7 +44,7 @@
                                         &#160; <input type="text" name="account" placeholder="132000" style="width: 20%" readonly /> $
                                     </p>
                                     <p>
-                                        &#160; <input type="text" name="bill_id" value="<?php echo $row['id']; ?>" style="width: 15%" />
+                                        &#160; <input type="text" name="bill_id" value="<?php echo $row['id']; ?>" style="width: 15%" readonly />
                                     </p>
                                     <p>
                                         &#160; <input type="text" name="bill_name" value="<?php echo $row['name']; ?>" style="width: 30%" />
@@ -61,7 +61,7 @@
                         <p>
                             &#160;
                             <?php
-                            $conn = mysqli_connect('localhost', 'root', '', 'budgetdb') or die('Can not connect to mysql');
+                            $conn = mysqli_connect('localhost', 'root', 'namhoang', 'budgetdb') or die('Can not connect to mysql');
                             $query = mysqli_query($conn, "SELECT * FROM tblbillcategories");
                             ?>
                             <select name="bill_on" id="category" style="width: 20%">
@@ -117,7 +117,7 @@
                                 }
 
                                 // Kết nối tới cơ sở dữ liệu
-                                $con = new mysqli("localhost", "root", "", "budgetdb");
+                                $con = new mysqli("localhost", "root", "namhoang", "budgetdb");
                                 if (mysqli_connect_errno()) {
                                     echo "Failed to connect to MySQL: " . mysqli_connect_error();
                                 } else {

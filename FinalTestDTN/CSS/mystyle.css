@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 #father {
-    margin-top: 2%;
+    margin-top: 1%;
     margin-left: 23%;
     width: 60%;
     border: 1px solid black;
@@ -69,4 +69,5 @@ th, td{
 thead{
     align:right;
 }
+
 

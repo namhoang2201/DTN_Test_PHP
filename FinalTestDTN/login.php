@@ -9,8 +9,9 @@
   <div class="login-page">
     <div class="form">
       <form class="login-form" method="post">
-        <input type="text" placeholder="username" id="username" name="username" required />
+        <input type="text" placeholder="username" id="username" name="username" value="" required />
         <script language="javascript">
+
           $('#username').keyup(function(){
             var username = $('#username').val();
             if (username !== '') {
@@ -21,6 +22,7 @@
                   if (result=="empty") {
                     $('#status1').hide();
                   }else{
+                    $('#status1').show();
                     $('#status1').html(result);
                   }
                 });
@@ -31,7 +33,7 @@
 
         </script>
         <div id="status1" style="color: red;"></div>
-        <input type="password" placeholder="password" id="password" name="password" required= />
+        <input type="password" placeholder="password" id="password" name="password" value="" required= />
         <button name="signin">login</button>
         <p class="message">Not registered? <a href="register.php">Create an account</a></p>
         <div id="status2" style="color: red;"></div>

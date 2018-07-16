@@ -22,6 +22,7 @@
                   if (result=="empty") {
                     $('#status3').hide();
                   }else{
+                    $('#status3').show();
                     $('#status3').html(result);
                   }
                 });
@@ -44,6 +45,7 @@
                   if (result=="empty") {
                     $('#status4').hide();
                   }else{
+                    $('#status4').show();
                     $('#status4').html(result);
                   }
                 });
@@ -66,6 +68,7 @@
                   if (result=="empty") {
                     $('#status5').hide();
                   }else{
+                    $('#status5').show();
                     $('#status5').html(result);
                   }
                 });

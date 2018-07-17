@@ -52,12 +52,15 @@ $complete_all = array();
                             // $('#checkinsert').hmtl("Bill ID has already existed !");
                             alert("BIll ID has already existed !");
                             window.location.href = 'MonthlyBudget.php';
+                        }else if(result == ''){
+
                         }
-                        if (result != "existed") {
+                        else {
                             $('#tr1').remove();
                             $('#tr2').remove();
                             $('#mybody').append(result);
                         }
+
                     }
                 }
                 );

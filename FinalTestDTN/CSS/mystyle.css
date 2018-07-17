@@ -32,8 +32,9 @@ and open the template in the editor.
 }
 
 #two1{
+    margin-top: 1.5%;
     width: 13%;
-    height: 260px;
+    height: 238px;
     float: left;
     text-align: right;
 }
@@ -61,11 +62,13 @@ and open the template in the editor.
 table{
     border: 1px solid back;
     align-items: right;
-    align: right;
 }
 
 thead{
     align:right;
 }
 
+th{
+    text-align: center;
+}
 

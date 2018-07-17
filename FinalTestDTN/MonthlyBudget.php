@@ -16,7 +16,6 @@ $complete_all = array();
     <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
     <title>Monthly Budget</title>
     <link rel="stylesheet" type="text/css" href="./CSS/mystyle.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script language = "javascript" src = "./JS/jquery-3.2.1.js"></script>
     <script language="javascript">
 
@@ -130,10 +129,10 @@ $complete_all = array();
             </div>
             <div id="two">
                 <div id="two1"> 
-                    Account <br> <br>
-                    Bill ID <br> <br>
-                    Bill Name 
-                    <p><br>Amount</p>
+                    <br>Account
+                    <p>Bill ID</p>
+                    <p>Bill Name </p>
+                    <p>Amount</p>
                     <p>Bill on</p>
                 </div>
                 <div id="two2">
@@ -204,14 +203,14 @@ $complete_all = array();
         </div>
         <div id="four">
             <form action="<?php echo($_SERVER['PHP_SELF']); ?>" name="form2" method="post">
-                <table border="1" align="right" width="100%" id="mytable">
-                    <thead style="background-color: #FFFF99; align: right; table-layout: fixed; width: 100%; ">
+                <table border="1" align="right" width="100%"  id="mytable">
+                    <thead style="background-color: #FFFF99; text-align: center; table-layout: fixed; width: 100%; ">
                         <tr>
                             <th align="center" width="5%"><input type="checkbox" id="select_all" onclick="change()" /></th>
                             <th width="10%">
                                 ID
                             </th>
-                            <th align="right" width="20%">Name</th>
+                            <th text-align="center" align="center" width="20%">Name</th>
                             <th width="15%">Amount</th>
                             <th width="15%">Category</th>
                             <th width="15%">Complete</th>

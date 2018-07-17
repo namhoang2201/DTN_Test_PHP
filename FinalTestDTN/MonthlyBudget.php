@@ -27,10 +27,10 @@ $complete_all = array();
                 var amount = $('#amount').val();
                 var category = $('#category').val();
 
-                if (category == '') {
-                    $('#checkcategory').html("Please select a category !");
-                    return false;
-                }
+                // if (category == '') {
+                //     $('#checkcategory').html("Please select a category !");
+                //     return false;
+                // }
 
 
                 // Gửi dữ liệu bằng ajax
@@ -63,12 +63,12 @@ $complete_all = array();
                 return true;
             }
 
-            function checkcate(){
-                var category = $('#category').val();
-                if (category != '') {
-                    $('#checkcategory').hide();
-                }
-            }
+            // function checkcate(){
+            //     var category = $('#category').val();
+            //     if (category != '') {
+            //         $('#checkcategory').hide();
+            //     }
+            // }
 
             // Hàm lấy giá trị trả về 0 nếu checkbox không được tích, trả về 1 nếu checkbox được tích
             function isChecked() {

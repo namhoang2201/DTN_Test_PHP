@@ -84,6 +84,7 @@ $complete_all = array();
             // Hàm reset lại form nhập liệu về như trạng thái mặc định
             function reset() {
                 document.getElementById("form1").reset();
+
             }
 
             // Hàm để chọn hoặc bỏ chọn tất cả checkbox ở cột đầu tiên bên trái 
@@ -172,7 +173,7 @@ $complete_all = array();
                         $conn = mysqli_connect('localhost', 'root', 'namhoang', 'budgetdb') or die('Can not connect to mysql');
                         $query = mysqli_query($conn, "SELECT * FROM tblbillcategories");
                         ?>
-                        <select name="bill_on" id="category" style="width: 20%" onchange="checkcate()">
+                        <select required name="bill_on" id="category" style="width: 20%" onchange="checkcate()">
                             <option value="">-- Select a category --</option>
                             <?php
                             while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)):

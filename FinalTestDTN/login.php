@@ -44,7 +44,8 @@
 </html>
 <?php
 session_start();
-if ($_SESSION['username'] == true) {
+$session_username = isset($_SESSION['username']) ? $_SESSION['username'] : FALSE;
+if ($session_username == true) {
   header('Location: MonthlyBudget.php');
 }
 if (isset($_POST['signin'])) {
